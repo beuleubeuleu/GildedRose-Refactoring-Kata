@@ -1,22 +1,27 @@
 package com.gildedrose
 
+const val AGED_BRIE = "Aged Brie"
+const val BACKSTAGE = "Backstage passes to a TAFKAL80ETC concert"
+const val SULFURAS = "Sulfuras, Hand of Ragnaros"
+
+
 class GildedRose(var items: Array<Item>) {
 
     fun updateQuality() {
         for (i in items.indices) {
 
+            val isAgedBrie = items[i].name == AGED_BRIE
+            val isBackstage = items[i].name == BACKSTAGE
+            val isSulfuras = items[i].name == SULFURAS
             fun qualityCanIncrease() = items[i].quality < 50
             fun qualityCanDecrease() = items[i].quality > 0
-            val AGED_BRIE = items[i].name == "Aged Brie"
-            val BACKSTAGE = items[i].name == "Backstage passes to a TAFKAL80ETC concert"
-            val SULFURAS = items[i].name == "Sulfuras, Hand of Ragnaros"
-            val SELL_IN_11DAYS = items[i].sellIn < 11
-            val SELL_IN_6DAYS = items[i].sellIn < 6
-            val NO_DAYS_TO_SELL = items[i].sellIn < 0
+            fun sellIn11Days() = items[i].sellIn < 11
+            fun sellIn6Days() = items[i].sellIn < 6
+            fun noDaysToSell() = items[i].sellIn < 0
 
-            if (!AGED_BRIE && !BACKSTAGE) {
+            if (!isAgedBrie && !isBackstage) {
                 if (qualityCanDecrease()) {
-                    if (!SULFURAS) {
+                    if (!isSulfuras) {
                         items[i].quality --
                     }
                 }
@@ -24,14 +29,14 @@ class GildedRose(var items: Array<Item>) {
                 if (qualityCanIncrease()) {
                     items[i].quality ++
 
-                    if (BACKSTAGE) {
-                        if (SELL_IN_11DAYS) {
+                    if (isBackstage) {
+                        if (sellIn11Days()) {
                             if (qualityCanIncrease()) {
                                 items[i].quality ++
                             }
                         }
 
-                        if (SELL_IN_6DAYS) {
+                        if (sellIn6Days()) {
                             if (qualityCanIncrease()) {
                                 items[i].quality ++
                             }
@@ -40,15 +45,15 @@ class GildedRose(var items: Array<Item>) {
                 }
             }
 
-            if (!SULFURAS) {
+            if (!isSulfuras) {
                 items[i].sellIn --
             }
 
-            if (NO_DAYS_TO_SELL) {
-                if (!AGED_BRIE) {
-                    if (!BACKSTAGE) {
+            if (noDaysToSell()) {
+                if (!isAgedBrie) {
+                    if (!isBackstage) {
                         if (qualityCanDecrease()) {
-                            if (!SULFURAS) {
+                            if (!isSulfuras) {
                                 items[i].quality --
                             }
                         }
