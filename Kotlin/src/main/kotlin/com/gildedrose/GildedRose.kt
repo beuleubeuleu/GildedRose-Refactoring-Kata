@@ -4,55 +4,64 @@ class GildedRose(var items: Array<Item>) {
 
     fun updateQuality() {
         for (i in items.indices) {
-            if (items[i].name != "Aged Brie" && items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
-                if (items[i].quality > 0) {
-                    if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                        items[i].quality = items[i].quality - 1
+
+            fun qualityCanIncrease() = items[i].quality < 50
+            fun qualityCanDecrease() = items[i].quality > 0
+            val AGED_BRIE = items[i].name == "Aged Brie"
+            val BACKSTAGE = items[i].name == "Backstage passes to a TAFKAL80ETC concert"
+            val SULFURAS = items[i].name == "Sulfuras, Hand of Ragnaros"
+            val SELL_IN_11DAYS = items[i].sellIn < 11
+            val SELL_IN_6DAYS = items[i].sellIn < 6
+            val NO_DAYS_TO_SELL = items[i].sellIn < 0
+
+            if (!AGED_BRIE && !BACKSTAGE) {
+                if (qualityCanDecrease()) {
+                    if (!SULFURAS) {
+                        items[i].quality --
                     }
                 }
             } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1
+                if (qualityCanIncrease()) {
+                    items[i].quality ++
 
-                    if (items[i].name == "Backstage passes to a TAFKAL80ETC concert") {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1
+                    if (BACKSTAGE) {
+                        if (SELL_IN_11DAYS) {
+                            if (qualityCanIncrease()) {
+                                items[i].quality ++
                             }
                         }
 
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1
+                        if (SELL_IN_6DAYS) {
+                            if (qualityCanIncrease()) {
+                                items[i].quality ++
                             }
                         }
                     }
                 }
             }
 
-            if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                items[i].sellIn = items[i].sellIn - 1
+            if (!SULFURAS) {
+                items[i].sellIn --
             }
 
-            if (items[i].sellIn < 0) {
-                if (items[i].name != "Aged Brie") {
-                    if (items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
-                        if (items[i].quality > 0) {
-                            if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                                items[i].quality = items[i].quality - 1
+            if (NO_DAYS_TO_SELL) {
+                if (!AGED_BRIE) {
+                    if (!BACKSTAGE) {
+                        if (qualityCanDecrease()) {
+                            if (!SULFURAS) {
+                                items[i].quality --
                             }
                         }
                     } else {
-                        items[i].quality = items[i].quality - items[i].quality
+                        items[i].quality = 0
                     }
                 } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1
+                    if (qualityCanIncrease()) {
+                        items[i].quality ++
                     }
                 }
             }
         }
     }
-
 }
 

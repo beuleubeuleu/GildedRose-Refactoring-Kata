@@ -4,8 +4,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
+
 internal class GildedRoseTest {
-    
+
     @Test
     fun sell_limit_of_nonLegendary_item_decrements_by1(){
         //Given
@@ -18,6 +19,7 @@ internal class GildedRoseTest {
         app.updateQuality()
 
         //Then
+
         assertEquals(expectedSellInNormalStuff, app.items[0].sellIn)
     }
 
@@ -91,8 +93,6 @@ internal class GildedRoseTest {
         assertEquals(expectedQuality1, app.items[1].quality)
         assertEquals(expectedQuality2, app.items[2].quality)
     }
-
-
 }
 
 
