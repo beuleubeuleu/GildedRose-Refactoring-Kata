@@ -13,10 +13,10 @@ repositories {
 
 dependencies {
 	implementation(kotlin("stdlib"))
-	testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-	
+    implementation("org.jetbrains.kotlin:kotlin-test-junit:1.7.10")
+
 	// Use the Kotlin test library.
-    	testImplementation("org.jetbrains.kotlin:kotlin-test")
+	testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
 
 // config JVM target to 1.8 for kotlin compilation tasks
