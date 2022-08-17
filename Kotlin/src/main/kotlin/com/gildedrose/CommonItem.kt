@@ -1,20 +1,18 @@
 package com.gildedrose
 
 class CommonItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn, quality) {
-    companion object {
-        fun updateQuality() {
+
+        override fun updateQuality() {
             if (qualityCanDecrease()) {
-                items[i].quality --
+                this.quality--
             }
 
-            items[i].sellIn --
+            this.sellIn--
 
-            if(noDaysToSell()) {
+            if (noDaysToSell()) {
                 if (qualityCanDecrease()) {
-                    items[i].quality--
+                    this.quality--
                 }
             }
         }
     }
-
-}
